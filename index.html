@@ -53,7 +53,7 @@
               <input type="text" class="form-control mx-2 w-auto d-inline" id="monto" />
             </div>
 
-            <button type="submit" class="btn btn-danger">Relalizar</button>
+            <button type="submit" class="btn btn-danger">Realizar</button>
           </div>
         </div>
       </form>
@@ -229,7 +229,11 @@
     } catch ({ response: { data } }) {
       console.log("Error!!");
       console.log(data);
-      alert("Algo salió mal...");
+      if (data.mensaje) {
+        alert(data.mensaje);
+      } else {
+        alert("Algo salió mal...");
+      }
     }
   });
 
@@ -265,6 +269,10 @@
     const response = await fetch(`/usuario?id=${id}`, {
       method: "DELETE",
     });
+    let data = await response.json();
+    if (response.status == 409) {
+      alert(data.message);
+    }
     getUsuarios();
   };
 
